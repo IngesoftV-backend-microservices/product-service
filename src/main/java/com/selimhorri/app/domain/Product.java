@@ -1,0 +1,70 @@
+package com.selimhorri.app.domain;
+
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
+@Entity
+@Table(name = "products")
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper = true, exclude = {"category"})
+@Data
+@Builder
+@ToString(exclude = {"category"})
+public final class Product extends AbstractMappedEntity implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "product_id", unique = true, nullable = false, updatable = false)
+	private Integer productId;
+	
+	@Column(name = "product_title")
+	private String productTitle;
+	
+	@Column(name = "image_url")
+	private String imageUrl;
+	
+	@Column(unique = true)
+	private String sku;
+	
+	@Column(name = "price_unit", columnDefinition = "decimal")
+	private Double priceUnit;
+	
+	@Column(name = "quantity")
+	private Integer quantity;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "category_id")
+	@JsonBackReference
+	private Category category;
+	
+}
+
+
+
+
+
+
+
+
+
